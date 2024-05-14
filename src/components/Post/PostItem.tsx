@@ -1,4 +1,4 @@
-import { Post } from "./types";
+import { Post } from "@/types/Post";
 
 export const PostItem = (post: Post) => {
   return (

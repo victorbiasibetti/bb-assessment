@@ -3,17 +3,12 @@ import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import { useEffect, useState } from "react";
 import Post from "@/components/Post";
+import { Post as PostType } from "@/types/Post";
 
 const inter = Inter({ subsets: ["latin"] });
-type Post = {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-};
 
 export default function Home() {
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<PostType[]>([]);
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/posts")
       .then((response) => response.json())

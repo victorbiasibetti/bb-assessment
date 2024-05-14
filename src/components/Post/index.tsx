@@ -1,5 +1,5 @@
+import { Post as PostType } from "@/types/Post";
 import { PostItem } from "./PostItem";
-import { Post as PostType } from "./types";
 
 type Props = { posts: PostType[] };
 
