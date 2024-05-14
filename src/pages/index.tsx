@@ -2,6 +2,7 @@ import Head from "next/head";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import { useEffect, useState } from "react";
+import Post from "@/components/Post";
 
 const inter = Inter({ subsets: ["latin"] });
 type Post = {
@@ -12,7 +13,7 @@ type Post = {
 };
 
 export default function Home() {
-  const [posts, setPosts] = useState<Post[] | null>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/posts")
       .then((response) => response.json())
@@ -27,9 +28,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <aside className={styles.posts}>
-        <ul>
-          {posts && posts.map((post) => <li key={post.id}>{post.title}</li>)}
-        </ul>
+        <Post posts={posts} />
       </aside>
       <main className={styles.main}>Comment posts</main>
     </div>
