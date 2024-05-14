@@ -5,15 +5,15 @@ import { useEffect, useState } from "react";
 import Post from "@/components/Post";
 import { Post as PostType } from "@/types/Post";
 
+import { GetServerSideProps } from "next";
+
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
-  const [posts, setPosts] = useState<PostType[]>([]);
-  useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/posts")
-      .then((response) => response.json())
-      .then(setPosts);
-  }, []);
+type Props = {
+  posts: PostType[];
+};
+
+export default function Home({ posts }: Props) {
   return (
     <div className={styles.wrapper}>
       <Head>
@@ -32,3 +32,18 @@ export default function Home() {
     </div>
   );
 }
+
+export const getServerSideProps = (async () => {
+  const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+  if (!response) {
+    return {
+      notFound: true,
+    };
+  }
+  const posts = await response.json();
+  return {
+    props: {
+      posts,
+    },
+  };
+}) satisfies GetServerSideProps<{ posts: PostType[] }>;
