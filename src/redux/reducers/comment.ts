@@ -60,7 +60,6 @@ export const commentSlice = createSlice({
   },
 });
 
-// Action creators are generated for each case reducer function
 export const { addReply, loadComment, addTag, filterTag, saveSelectecPost } =
   commentSlice.actions;
 
