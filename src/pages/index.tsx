@@ -1,9 +1,10 @@
 import Head from "next/head";
+import { GetServerSideProps } from "next";
 import styles from "@/styles/Home.module.css";
 import Post from "@/components/Post";
 import { Post as PostType } from "@/types/Post";
-import { GetServerSideProps } from "next";
 import { User } from "@/types/User";
+import { Comments } from "@/components/Comments";
 
 type Props = {
   posts: PostType[];
@@ -14,7 +15,7 @@ export default function Home({ posts, users }: Props) {
   return (
     <div className={styles.wrapper}>
       <Head>
-        <title>Create Next App</title>
+        <title>Brand Bastion Assessment</title>
         <meta
           name="description"
           content="BrandBastion Assessment by Victor Biasibetti"
@@ -25,7 +26,10 @@ export default function Home({ posts, users }: Props) {
       <aside className={styles.posts}>
         <Post posts={posts} users={users} />
       </aside>
-      <main className={styles.main}>Comment posts</main>
+      <main className={styles.main}>
+        <h3>Comment Posts</h3>
+        <Comments />
+      </main>
     </div>
   );
 }
