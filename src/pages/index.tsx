@@ -6,14 +6,16 @@ import Post from "@/components/Post";
 import { Post as PostType } from "@/types/Post";
 
 import { GetServerSideProps } from "next";
+import { User } from "@/types/User";
 
 const inter = Inter({ subsets: ["latin"] });
 
 type Props = {
   posts: PostType[];
+  users: User[];
 };
 
-export default function Home({ posts }: Props) {
+export default function Home({ posts, users }: Props) {
   return (
     <div className={styles.wrapper}>
       <Head>
@@ -26,7 +28,7 @@ export default function Home({ posts }: Props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <aside className={styles.posts}>
-        <Post posts={posts} />
+        <Post posts={posts} users={users} />
       </aside>
       <main className={styles.main}>Comment posts</main>
     </div>
@@ -34,16 +36,26 @@ export default function Home({ posts }: Props) {
 }
 
 export const getServerSideProps = (async () => {
-  const response = await fetch("https://jsonplaceholder.typicode.com/posts");
-  if (!response) {
+  const [postsResponse, usersResponse] = await Promise.all([
+    fetch("https://jsonplaceholder.typicode.com/posts"),
+    fetch("https://jsonplaceholder.typicode.com/users"),
+  ]);
+
+  if (!postsResponse || !usersResponse) {
     return {
       notFound: true,
     };
   }
-  const posts = await response.json();
+
+  const [posts, users] = await Promise.all([
+    postsResponse.json(),
+    usersResponse.json(),
+  ]);
+
   return {
     props: {
       posts,
+      users,
     },
   };
 }) satisfies GetServerSideProps<{ posts: PostType[] }>;
