@@ -1,6 +1,16 @@
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/useRedux";
 import { Post } from "@/types/Post";
+import { User } from "@/types/User";
 
-export const PostItem = (post: Post) => {
+type Props = {
+  post: Post;
+  user?: User;
+};
+
+export const PostItem = ({ post, user }: Props) => {
+  const comment = useAppSelector((state) => state.comment);
+  const dispatch = useAppDispatch();
+
   return (
     <div
       style={{
@@ -9,6 +19,7 @@ export const PostItem = (post: Post) => {
       }}
       onClick={() => console.log("postId - " + post.id)}
     >
+      {user && <span>{"@" + user.username}</span>}
       <p
         style={{
           textTransform: "uppercase",
@@ -16,7 +27,7 @@ export const PostItem = (post: Post) => {
           paddingBottom: "0.5rem",
         }}
       >
-        {post.title}
+        {`${post.title}`}
       </p>
       <span>{post.body}</span>
     </div>
