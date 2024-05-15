@@ -1,15 +1,15 @@
 import { useAppDispatch } from "@/redux/hooks/useRedux";
-import { loadComment } from "@/redux/reducers/comment";
+import { loadComment, saveSelectecPost } from "@/redux/reducers/comment";
 import { Post } from "@/types/Post";
 import { User } from "@/types/User";
+import { Box, Typography } from "@mui/material";
 
 type Props = {
   post: Post;
   user?: User;
-  isSelected?: boolean;
 };
 
-export const PostItem = ({ post, user, isSelected = false }: Props) => {
+export const PostItem = ({ post, user }: Props) => {
   const dispatch = useAppDispatch();
 
   const handleLoadComments = async (postId: number) => {
@@ -18,21 +18,27 @@ export const PostItem = ({ post, user, isSelected = false }: Props) => {
     );
     const commentsLoaded = await response.json();
     dispatch(loadComment({ comments: commentsLoaded }));
+    dispatch(saveSelectecPost(post));
   };
 
   return (
-    <div
+    <Box
       style={{
-        marginBottom: "1rem",
+        margin: "1rem 0",
         cursor: "pointer",
-        backgroundColor: isSelected ? "#123acb" : "none",
+        padding: "1rem",
+        border: "1px solid black",
       }}
+      borderRadius={"12px"}
       onClick={() => {
         handleLoadComments(post.id);
       }}
     >
-      {user && <span>{"@" + user.username}</span>}
-      <p
+      {user && (
+        <Typography variant="subtitle1">{"@" + user.username}</Typography>
+      )}
+      <Typography
+        variant="body1"
         style={{
           textTransform: "uppercase",
           fontWeight: 700,
@@ -40,8 +46,8 @@ export const PostItem = ({ post, user, isSelected = false }: Props) => {
         }}
       >
         {`${post.title}`}
-      </p>
-      <span>{post.body}</span>
-    </div>
+      </Typography>
+      <Typography variant="body2">{post.body}</Typography>
+    </Box>
   );
 };

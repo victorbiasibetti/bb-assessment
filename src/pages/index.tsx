@@ -27,7 +27,6 @@ export default function Home({ posts, users }: Props) {
         <Post posts={posts} users={users} />
       </aside>
       <main className={styles.main}>
-        <h3>Comment Posts</h3>
         <Comments />
       </main>
     </div>
