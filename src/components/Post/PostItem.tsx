@@ -1,5 +1,5 @@
 import { useAppDispatch } from "@/redux/hooks/useRedux";
-import { loadComment } from "@/redux/reducers/comment";
+import { loadComment, saveSelectecPost } from "@/redux/reducers/comment";
 import { Post } from "@/types/Post";
 import { User } from "@/types/User";
 import { Box, Typography } from "@mui/material";
@@ -11,12 +11,14 @@ type Props = {
 
 export const PostItem = ({ post, user }: Props) => {
   const dispatch = useAppDispatch();
+
   const handleLoadComments = async (postId: number) => {
     const response = await fetch(
       `https://jsonplaceholder.typicode.com/posts/${postId}/comments`
     );
     const commentsLoaded = await response.json();
     dispatch(loadComment({ comments: commentsLoaded }));
+    dispatch(saveSelectecPost(post));
   };
 
   return (

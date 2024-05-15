@@ -1,4 +1,5 @@
 import { Comment } from "@/types/Comment";
+import { Post } from "@/types/Post";
 import { createSlice } from "@reduxjs/toolkit";
 
 type Reply = {
@@ -16,6 +17,12 @@ const comments: Array<Comment> = [];
 const tags: Array<Tag> = [];
 const replies: Array<Reply> = [];
 const filteredTags: Array<Tag> = [];
+const selectedPost: Post = {
+  body: "",
+  id: 0,
+  title: "",
+  userId: 0,
+};
 
 export const commentSlice = createSlice({
   name: "comment",
@@ -24,6 +31,7 @@ export const commentSlice = createSlice({
     replies,
     filteredTags,
     tags,
+    selectedPost,
   },
   reducers: {
     addReply: (state, action: { type: string; payload: Reply }) => {
@@ -46,11 +54,14 @@ export const commentSlice = createSlice({
     loadComment: (state, action) => {
       state.comments = action.payload?.comments as Comment[];
     },
+    saveSelectecPost: (state, action: { type: string; payload: Post }) => {
+      if (action.payload.id) state.selectedPost = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addReply, loadComment, addTag, filterTag } =
+export const { addReply, loadComment, addTag, filterTag, saveSelectecPost } =
   commentSlice.actions;
 
 export default commentSlice.reducer;
