@@ -24,10 +24,13 @@ export const commentSlice = createSlice({
     getTags: () => {
       console.log("comment/getTags reducer");
     },
+    loadComment: (state, action) => {
+      state.comments = action.payload?.comments as CommentSlice[];
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addReply } = commentSlice.actions;
+export const { loadComment } = commentSlice.actions;
 
 export default commentSlice.reducer;
