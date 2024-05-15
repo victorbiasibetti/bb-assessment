@@ -55,4 +55,4 @@ export const getServerSideProps = (async () => {
       users,
     },
   };
-}) satisfies GetServerSideProps<{ posts: PostType[] }>;
+}) satisfies GetServerSideProps<{ posts: PostType[]; users: User[] }>;
