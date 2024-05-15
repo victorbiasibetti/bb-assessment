@@ -1,9 +1,7 @@
 import Head from "next/head";
-import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import Post from "@/components/Post";
 import { Post as PostType } from "@/types/Post";
-
 import { GetServerSideProps } from "next";
 import { User } from "@/types/User";
 
