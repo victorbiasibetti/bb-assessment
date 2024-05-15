@@ -2,7 +2,7 @@ import { useAppSelector } from "@/redux/hooks/useRedux";
 import { Comment } from "@/types/Comment";
 import { Reply } from "./Reply";
 import { Tags } from "./Tag";
-import { Box, Grid, Paper, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 
 export const Comments = () => {
   const { comments, replies, tags, filteredTags, selectedPost } =
