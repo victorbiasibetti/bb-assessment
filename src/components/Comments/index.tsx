@@ -1,77 +1,12 @@
-import { useAppDispatch, useAppSelector } from "@/redux/hooks/useRedux";
-import { addReply, addTag, filterTag } from "@/redux/reducers/comment";
+import { useAppSelector } from "@/redux/hooks/useRedux";
 import { Comment } from "@/types/Comment";
-import { useState } from "react";
-
-type Props = {
-  comment: Comment;
-};
-
-const Reply = ({ comment }: Props) => {
-  const [reply, setReply] = useState<string>();
-  const dispatch = useAppDispatch();
-
-  const handleSaveReply = (comment: Comment) => {
-    if (reply) {
-      dispatch(
-        addReply({
-          commentId: comment.id,
-          body: reply,
-          postId: comment.postId,
-        })
-      );
-      setReply("");
-    }
-  };
-
-  return (
-    <>
-      <input value={reply} onChange={(e) => setReply(e.target.value)} />
-      <button onClick={() => handleSaveReply(comment)}>Save Comment</button>
-    </>
-  );
-};
-
-const Tags = ({ comment }: Props) => {
-  const [tag, setTag] = useState<string>();
-  const dispatch = useAppDispatch();
-
-  const handleFilterTags = (tag: string) => {
-    dispatch(filterTag(tag));
-  };
-
-  const handleSaveTag = (comment: Comment) => {
-    if (tag) {
-      dispatch(
-        addTag({
-          commentId: comment.id,
-          body: tag,
-          postId: comment.postId,
-        })
-      );
-      setTag("");
-    }
-  };
-
-  return (
-    <>
-      <input
-        value={tag}
-        onChange={(e) => {
-          const { value } = e.target;
-          setTag(value);
-          handleFilterTags(value);
-        }}
-      />
-      <button onClick={() => handleSaveTag(comment)}>Save Tag</button>
-    </>
-  );
-};
+import { Reply } from "./Reply";
+import { Tags } from "./Tag";
+import { Box, Grid, Paper, Typography } from "@mui/material";
 
 export const Comments = () => {
-  const { comments, replies, tags, filteredTags } = useAppSelector(
-    (state) => state.comment
-  );
+  const { comments, replies, tags, filteredTags, selectedPost } =
+    useAppSelector((state) => state.comment);
   const commentsReplies = (commentId: number) =>
     replies.filter((reply) => reply.commentId === commentId);
 
@@ -79,25 +14,69 @@ export const Comments = () => {
     tags.filter((tag) => tag.commentId === commentId);
 
   return (
-    <div>
+    <div
+      style={{
+        padding: "0.5rem",
+      }}
+    >
+      {!!selectedPost.id && (
+        <Typography variant="h5" paddingBottom={"1rem"}>
+          {selectedPost.title.toUpperCase()}
+        </Typography>
+      )}
       {comments.map((comment: Comment) => (
-        <div key={comment.id}>
-          {comment.body}
-          <p>Tags</p>
-          {savedTags(comment.id).map((tag) => (
-            <div key={tag.body}>{tag.body} </div>
-          ))}
-          <p>Suggestion Tags</p>
-          {filteredTags.map((tag) => (
-            <div key={tag.body}>{tag.body}</div>
-          ))}
-          <p>Repleis</p>
-          {commentsReplies(comment.id).map((reply) => (
-            <div key={reply.body}>{reply.body} </div>
-          ))}
-          <Tags comment={comment} />
-          <Reply comment={comment} />
-        </div>
+        <Grid container key={comment.id} marginBottom={"2rem"}>
+          <Grid item xs={12}>
+            <Typography variant="subtitle1">{comment.body}</Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="overline">Replies</Typography>
+            {commentsReplies(comment.id).map((reply) => (
+              <Typography
+                key={reply.body}
+                variant="inherit"
+                style={{
+                  margin: "0.25rem 0",
+                  padding: "0 0.15rem",
+                }}
+              >
+                {reply.body}
+              </Typography>
+            ))}
+          </Grid>
+          <Grid item xs={6} justifyContent={"center"} padding={"0 0.25rem"}>
+            <Typography variant="overline">Tags</Typography>
+            {savedTags(comment.id).map((tag) => (
+              <Typography variant="inherit" key={tag.body}>
+                {tag.body}
+              </Typography>
+            ))}
+          </Grid>
+          <Grid
+            item
+            xs={6}
+            display={"flex"}
+            flexDirection={"column"}
+            flexGrow={1}
+          >
+            <Reply comment={comment} />
+          </Grid>
+          <Grid
+            item
+            xs={6}
+            display={"flex"}
+            flexDirection={"column"}
+            flexGrow={1}
+          >
+            <Box>
+              {filteredTags.map((tag) => (
+                <Typography key={tag.body}>{tag.body}</Typography>
+              ))}
+
+              <Tags comment={comment} />
+            </Box>
+          </Grid>
+        </Grid>
       ))}
     </div>
   );
