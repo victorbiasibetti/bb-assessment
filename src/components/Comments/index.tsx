@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/useRedux";
-import { addReply, addTag } from "@/redux/reducers/comment";
+import { addReply, addTag, filterTag } from "@/redux/reducers/comment";
 import { Comment } from "@/types/Comment";
 import { useState } from "react";
 
@@ -36,6 +36,10 @@ const Tags = ({ comment }: Props) => {
   const [tag, setTag] = useState<string>();
   const dispatch = useAppDispatch();
 
+  const handleFilterTags = (tag: string) => {
+    dispatch(filterTag(tag));
+  };
+
   const handleSaveTag = (comment: Comment) => {
     if (tag) {
       dispatch(
@@ -51,14 +55,23 @@ const Tags = ({ comment }: Props) => {
 
   return (
     <>
-      <input value={tag} onChange={(e) => setTag(e.target.value)} />
+      <input
+        value={tag}
+        onChange={(e) => {
+          const { value } = e.target;
+          setTag(value);
+          handleFilterTags(value);
+        }}
+      />
       <button onClick={() => handleSaveTag(comment)}>Save Tag</button>
     </>
   );
 };
 
 export const Comments = () => {
-  const { comments, replies, tags } = useAppSelector((state) => state.comment);
+  const { comments, replies, tags, filteredTags } = useAppSelector(
+    (state) => state.comment
+  );
   const commentsReplies = (commentId: number) =>
     replies.filter((reply) => reply.commentId === commentId);
 
@@ -73,6 +86,10 @@ export const Comments = () => {
           <p>Tags</p>
           {savedTags(comment.id).map((tag) => (
             <div key={tag.body}>{tag.body} </div>
+          ))}
+          <p>Suggestion Tags</p>
+          {filteredTags.map((tag) => (
+            <div key={tag.body}>{tag.body}</div>
           ))}
           <p>Repleis</p>
           {commentsReplies(comment.id).map((reply) => (

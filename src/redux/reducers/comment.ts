@@ -15,12 +15,14 @@ type Tag = {
 const comments: Array<Comment> = [];
 const tags: Array<Tag> = [];
 const replies: Array<Reply> = [];
+const filteredTags: Array<Tag> = [];
 
 export const commentSlice = createSlice({
   name: "comment",
   initialState: {
     comments,
     replies,
+    filteredTags,
     tags,
   },
   reducers: {
@@ -32,8 +34,14 @@ export const commentSlice = createSlice({
       const newTag = action.payload;
       state.tags.push({ ...newTag });
     },
-    filterTag: (state, action) => {
-      console.log("comment/filterTag reducer");
+    filterTag: (state, action: { type: string; payload: string }) => {
+      !action.payload.length
+        ? (state.filteredTags = [])
+        : (state.filteredTags = state.tags.filter((tag) =>
+            tag.body
+              .toLowerCase()
+              .startsWith(action.payload.toLocaleLowerCase())
+          ));
     },
     loadComment: (state, action) => {
       state.comments = action.payload?.comments as Comment[];
@@ -42,6 +50,7 @@ export const commentSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addReply, loadComment, addTag } = commentSlice.actions;
+export const { addReply, loadComment, addTag, filterTag } =
+  commentSlice.actions;
 
 export default commentSlice.reducer;
