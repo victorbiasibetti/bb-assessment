@@ -7,7 +7,6 @@ type Reply = {
   commentId: number;
 };
 type Tag = {
-  userId: number;
   body: string;
   postId: number;
   commentId: number;
@@ -29,11 +28,12 @@ export const commentSlice = createSlice({
       const newReply = action.payload;
       state.replies.push({ ...newReply });
     },
-    addTagToComment: () => {
-      console.log("comment/addTagToComment reducer");
+    addTag: (state, action: { type: string; payload: Tag }) => {
+      const newTag = action.payload;
+      state.tags.push({ ...newTag });
     },
-    getTags: () => {
-      console.log("comment/getTags reducer");
+    filterTag: (state, action) => {
+      console.log("comment/filterTag reducer");
     },
     loadComment: (state, action) => {
       state.comments = action.payload?.comments as Comment[];
@@ -42,6 +42,6 @@ export const commentSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addReply, loadComment } = commentSlice.actions;
+export const { addReply, loadComment, addTag } = commentSlice.actions;
 
 export default commentSlice.reducer;
