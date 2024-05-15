@@ -19,6 +19,9 @@ export const Comments = () => {
         padding: "0.5rem",
       }}
     >
+      {!selectedPost.id && (
+        <Typography variant="h5">Select a Post to show own comments</Typography>
+      )}
       {!!selectedPost.id && (
         <Typography variant="h5" paddingBottom={"1rem"}>
           {selectedPost.title.toUpperCase()}
