@@ -1,4 +1,5 @@
-import { useAppDispatch, useAppSelector } from "@/redux/hooks/useRedux";
+import { useAppDispatch } from "@/redux/hooks/useRedux";
+import { loadComment } from "@/redux/reducers/comment";
 import { Post } from "@/types/Post";
 import { User } from "@/types/User";
 
@@ -8,8 +9,15 @@ type Props = {
 };
 
 export const PostItem = ({ post, user }: Props) => {
-  const comment = useAppSelector((state) => state.comment);
   const dispatch = useAppDispatch();
+
+  const handleLoadComments = async (postId: number) => {
+    const response = await fetch(
+      `https://jsonplaceholder.typicode.com/posts/${postId}/comments`
+    );
+    const commentsLoaded = await response.json();
+    dispatch(loadComment({ comments: commentsLoaded }));
+  };
 
   return (
     <div
@@ -17,7 +25,9 @@ export const PostItem = ({ post, user }: Props) => {
         marginBottom: "1rem",
         cursor: "pointer",
       }}
-      onClick={() => console.log("postId - " + post.id)}
+      onClick={() => {
+        handleLoadComments(post.id);
+      }}
     >
       {user && <span>{"@" + user.username}</span>}
       <p
