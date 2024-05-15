@@ -6,9 +6,10 @@ import { User } from "@/types/User";
 type Props = {
   post: Post;
   user?: User;
+  isSelected?: boolean;
 };
 
-export const PostItem = ({ post, user }: Props) => {
+export const PostItem = ({ post, user, isSelected = false }: Props) => {
   const dispatch = useAppDispatch();
 
   const handleLoadComments = async (postId: number) => {
@@ -24,6 +25,7 @@ export const PostItem = ({ post, user }: Props) => {
       style={{
         marginBottom: "1rem",
         cursor: "pointer",
+        backgroundColor: isSelected ? "#123acb" : "none",
       }}
       onClick={() => {
         handleLoadComments(post.id);
