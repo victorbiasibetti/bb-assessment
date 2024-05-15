@@ -2,6 +2,7 @@ import { Post as PostType } from "@/types/Post";
 import { PostItem } from "./PostItem";
 import { User } from "@/types/User";
 import { useState } from "react";
+import { Box, Paper, TextField, Typography } from "@mui/material";
 
 type Props = { posts: PostType[]; users: User[] };
 
@@ -14,14 +15,24 @@ const Post = ({ posts, users }: Props) => {
   }));
 
   return (
-    <div>
-      <div>
-        <h4>Filter post:</h4>
-        <input
+    <Paper
+      style={{
+        boxShadow: "none",
+      }}
+    >
+      <Box
+        flex={1}
+        display={"flex"}
+        flexDirection={"column"}
+        padding={"0 0.5rem"}
+      >
+        <Typography variant="h5">Filter:</Typography>
+        <TextField
+          variant="outlined"
           value={filterPost}
           onChange={(e) => setFilterPost(e.target.value)}
         />
-      </div>
+      </Box>
       {postsWithUsersInfo &&
         postsWithUsersInfo
           .filter(
@@ -37,7 +48,7 @@ const Post = ({ posts, users }: Props) => {
           .map((post) => (
             <PostItem key={post.id} post={post} user={post.user} />
           ))}
-    </div>
+    </Paper>
   );
 };
 

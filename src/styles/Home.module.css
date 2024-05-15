@@ -7,11 +7,10 @@
 }
 
 .posts {
-  background-color: aquamarine;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 2rem;
+  padding: 1rem;
   max-height: 80vh;
   overflow-y: scroll;
 }
