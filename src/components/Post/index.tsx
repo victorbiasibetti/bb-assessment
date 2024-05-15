@@ -26,8 +26,9 @@ const Post = ({ posts, users }: Props) => {
         flexDirection={"column"}
         padding={"0 0.5rem"}
       >
-        <Typography variant="h5">Filter:</Typography>
+        <Typography variant="h6">Filter</Typography>
         <TextField
+          placeholder="Can filter by username, userId or content"
           variant="outlined"
           value={filterPost}
           onChange={(e) => setFilterPost(e.target.value)}
