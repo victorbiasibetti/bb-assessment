@@ -1,13 +1,9 @@
 import { Comment } from "@/types/Comment";
 import { Post } from "@/types/Post";
+import { Tag } from "@/types/Tag";
 import { createSlice } from "@reduxjs/toolkit";
 
 type Reply = {
-  body: string;
-  postId: number;
-  commentId: number;
-};
-type Tag = {
   body: string;
   postId: number;
   commentId: number;
