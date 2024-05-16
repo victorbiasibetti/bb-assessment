@@ -3,6 +3,7 @@ import { addTag } from "@/redux/reducers/comment";
 import { Comment } from "@/types/Comment";
 import { Autocomplete, Box, TextField } from "@mui/material";
 import { useState } from "react";
+import { isEnterKey } from "@/utils";
 
 type Props = {
   comment: Comment;
