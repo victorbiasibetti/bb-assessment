@@ -3,9 +3,9 @@ import { PostItem } from "./PostItem";
 import { User } from "@/types/User";
 import { useState } from "react";
 import { Box, Paper, TextField, Typography } from "@mui/material";
-import { HttpClient } from "@/httpClient";
+import { IHttpClient } from "@/httpClient";
 
-type Props = { posts: PostType[]; users: User[]; httpClient: HttpClient };
+type Props = { posts: PostType[]; users: User[]; httpClient: IHttpClient<any> };
 
 const Post = ({ posts, users, httpClient }: Props) => {
   const [filterPost, setFilterPost] = useState<string>("");

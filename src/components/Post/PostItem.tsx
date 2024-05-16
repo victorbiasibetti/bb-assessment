@@ -1,4 +1,4 @@
-import { HttpClient } from "@/httpClient";
+import { IHttpClient } from "@/httpClient";
 import { useAppDispatch } from "@/redux/hooks/useRedux";
 import { loadComment, saveSelectecPost } from "@/redux/reducers/comment";
 import { Post } from "@/types/Post";
@@ -8,15 +8,18 @@ import { Box, Typography } from "@mui/material";
 type Props = {
   post: Post;
   user?: User;
-  httpClient: HttpClient;
+  httpClient: IHttpClient<any>;
 };
 
 export const PostItem = ({ post, user, httpClient }: Props) => {
   const dispatch = useAppDispatch();
 
   const handleLoadComments = async (postId: number) => {
-    const commentsLoaded = httpClient.get(`/posts/${postId}/comments`);
-    dispatch(loadComment({ comments: commentsLoaded }));
+    const commentsLoaded = await httpClient.get(`/posts/${postId}/comments`);
+    if (commentsLoaded.error) {
+      return;
+    }
+    dispatch(loadComment({ comments: commentsLoaded.data }));
     dispatch(saveSelectecPost(post));
   };
 

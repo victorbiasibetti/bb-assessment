@@ -10,10 +10,10 @@ import { HttpClient } from "@/httpClient";
 type Props = {
   posts: PostType[];
   users: User[];
-  httpClient: HttpClient;
 };
 
-export default function Home({ posts, users, httpClient }: Props) {
+export default function Home({ posts, users }: Props) {
+  const httpClient = new HttpClient();
   return (
     <div className={styles.wrapper}>
       <Head>
@@ -42,7 +42,7 @@ export const getServerSideProps = (async () => {
     httpClient.get("/users"),
   ]);
 
-  if (!posts || !users) {
+  if (posts.error || users.error) {
     return {
       notFound: true,
     };
@@ -50,9 +50,8 @@ export const getServerSideProps = (async () => {
 
   return {
     props: {
-      posts,
-      users,
-      httpClient,
+      posts: posts.data,
+      users: users.data,
     },
   };
 }) satisfies GetServerSideProps<{ posts: PostType[]; users: User[] }>;
