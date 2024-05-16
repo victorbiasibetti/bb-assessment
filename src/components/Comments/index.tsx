@@ -5,13 +5,11 @@ import { Tags } from "./Tag";
 import { Box, Grid, Typography } from "@mui/material";
 
 export const Comments = () => {
-  const { comments, replies, tags, filteredTags, selectedPost } =
-    useAppSelector((state) => state.comment);
+  const { comments, replies, selectedPost } = useAppSelector(
+    (state) => state.comment
+  );
   const commentsReplies = (commentId: number) =>
     replies.filter((reply) => reply.commentId === commentId);
-
-  const savedTags = (commentId: number) =>
-    tags.filter((tag) => tag.commentId === commentId);
 
   return (
     <div
@@ -49,11 +47,6 @@ export const Comments = () => {
           </Grid>
           <Grid item xs={6} justifyContent={"center"} padding={"0 0.25rem"}>
             <Typography variant="overline">Tags</Typography>
-            {savedTags(comment.id).map((tag) => (
-              <Typography variant="inherit" key={tag.body}>
-                {tag.body}
-              </Typography>
-            ))}
           </Grid>
           <Grid
             item
@@ -72,10 +65,6 @@ export const Comments = () => {
             flexGrow={1}
           >
             <Box>
-              {filteredTags.map((tag) => (
-                <Typography key={tag.body}>{tag.body}</Typography>
-              ))}
-
               <Tags comment={comment} />
             </Box>
           </Grid>
