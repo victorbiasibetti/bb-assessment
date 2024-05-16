@@ -43,6 +43,8 @@ export const getServerSideProps = (async () => {
   ]);
 
   if (posts.error || users.error) {
+    console.log(posts.error);
+    console.log(users.error);
     return {
       notFound: true,
     };
