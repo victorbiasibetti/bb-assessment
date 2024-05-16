@@ -3,10 +3,11 @@ import { PostItem } from "./PostItem";
 import { User } from "@/types/User";
 import { useState } from "react";
 import { Box, Paper, TextField, Typography } from "@mui/material";
+import { HttpClient } from "@/httpClient";
 
-type Props = { posts: PostType[]; users: User[] };
+type Props = { posts: PostType[]; users: User[]; httpClient: HttpClient };
 
-const Post = ({ posts, users }: Props) => {
+const Post = ({ posts, users, httpClient }: Props) => {
   const [filterPost, setFilterPost] = useState<string>("");
 
   const postsWithUsersInfo = posts.map((post) => ({
@@ -47,7 +48,12 @@ const Post = ({ posts, users }: Props) => {
                 .startsWith(filterPost.toLocaleLowerCase())
           )
           .map((post) => (
-            <PostItem key={post.id} post={post} user={post.user} />
+            <PostItem
+              key={post.id}
+              post={post}
+              user={post.user}
+              httpClient={httpClient}
+            />
           ))}
     </Paper>
   );

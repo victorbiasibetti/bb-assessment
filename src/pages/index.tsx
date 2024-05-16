@@ -5,13 +5,15 @@ import Post from "@/components/Post";
 import { Post as PostType } from "@/types/Post";
 import { User } from "@/types/User";
 import { Comments } from "@/components/Comments";
+import { HttpClient } from "@/httpClient";
 
 type Props = {
   posts: PostType[];
   users: User[];
+  httpClient: HttpClient;
 };
 
-export default function Home({ posts, users }: Props) {
+export default function Home({ posts, users, httpClient }: Props) {
   return (
     <div className={styles.wrapper}>
       <Head>
@@ -24,7 +26,7 @@ export default function Home({ posts, users }: Props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <aside className={styles.posts}>
-        <Post posts={posts} users={users} />
+        <Post posts={posts} users={users} httpClient={httpClient} />
       </aside>
       <main className={styles.main}>
         <Comments />
@@ -34,21 +36,17 @@ export default function Home({ posts, users }: Props) {
 }
 
 export const getServerSideProps = (async () => {
-  const [postsResponse, usersResponse] = await Promise.all([
-    fetch("https://jsonplaceholder.typicode.com/posts"),
-    fetch("https://jsonplaceholder.typicode.com/users"),
+  const httpClient = new HttpClient();
+  const [posts, users] = await Promise.all([
+    httpClient.get("/posts"),
+    httpClient.get("/users"),
   ]);
 
-  if (!postsResponse || !usersResponse) {
+  if (!posts || !users) {
     return {
       notFound: true,
     };
   }
-
-  const [posts, users] = await Promise.all([
-    postsResponse.json(),
-    usersResponse.json(),
-  ]);
 
   return {
     props: {

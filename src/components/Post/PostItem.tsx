@@ -1,3 +1,4 @@
+import { HttpClient } from "@/httpClient";
 import { useAppDispatch } from "@/redux/hooks/useRedux";
 import { loadComment, saveSelectecPost } from "@/redux/reducers/comment";
 import { Post } from "@/types/Post";
@@ -7,16 +8,14 @@ import { Box, Typography } from "@mui/material";
 type Props = {
   post: Post;
   user?: User;
+  httpClient: HttpClient;
 };
 
-export const PostItem = ({ post, user }: Props) => {
+export const PostItem = ({ post, user, httpClient }: Props) => {
   const dispatch = useAppDispatch();
 
   const handleLoadComments = async (postId: number) => {
-    const response = await fetch(
-      `https://jsonplaceholder.typicode.com/posts/${postId}/comments`
-    );
-    const commentsLoaded = await response.json();
+    const commentsLoaded = httpClient.get(`/posts/${postId}/comments`);
     dispatch(loadComment({ comments: commentsLoaded }));
     dispatch(saveSelectecPost(post));
   };
