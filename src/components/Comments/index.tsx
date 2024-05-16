@@ -26,49 +26,84 @@ export const Comments = () => {
         </Typography>
       )}
       {comments.map((comment: Comment) => (
-        <Grid container key={comment.id} marginBottom={"2rem"}>
-          <Grid item xs={12}>
+        <Box
+          key={comment.id}
+          marginBottom={"2rem"}
+          display={"flex"}
+          flex={1}
+          flexDirection={"column"}
+        >
+          <Box>
             <Typography variant="subtitle1">{comment.body}</Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <Typography variant="overline">Replies</Typography>
-            {commentsReplies(comment.id).map((reply) => (
-              <Typography
-                key={reply.body}
-                variant="inherit"
-                style={{
-                  margin: "0.25rem 0",
-                  padding: "0 0.15rem",
-                }}
-              >
-                {reply.body}
-              </Typography>
-            ))}
-          </Grid>
-          <Grid item xs={6} justifyContent={"center"} padding={"0 0.25rem"}>
-            <Typography variant="overline">Tags</Typography>
-          </Grid>
-          <Grid
-            item
-            xs={6}
-            display={"flex"}
-            flexDirection={"column"}
-            flexGrow={1}
-          >
-            <Reply comment={comment} />
-          </Grid>
-          <Grid
-            item
-            xs={6}
-            display={"flex"}
-            flexDirection={"column"}
-            flexGrow={1}
-          >
-            <Box>
-              <Tags comment={comment} />
-            </Box>
-          </Grid>
-        </Grid>
+          </Box>
+          <Box>
+            <Grid container>
+              <Box marginRight={"0.25rem"}>
+                <Typography variant="overline">Replies</Typography>
+                {commentsReplies(comment.id).map((reply) => (
+                  <Typography
+                    key={reply.body}
+                    variant="inherit"
+                    style={{
+                      margin: "0.25rem 0",
+                      padding: "0 0.15rem",
+                    }}
+                  >
+                    {reply.body}
+                  </Typography>
+                ))}
+                <Reply comment={comment} />
+              </Box>
+              <Box>
+                <Typography variant="overline">Tags</Typography>
+                <Tags comment={comment} />
+              </Box>
+            </Grid>
+          </Box>
+        </Box>
+        // <Grid container key={comment.id} marginBottom={"2rem"}>
+        //   <Grid item xs={12}>
+        //     <Typography variant="subtitle1">{comment.body}</Typography>
+        //   </Grid>
+        //   <Grid item xs={6}>
+        //     <Typography variant="overline">Replies</Typography>
+        //     {commentsReplies(comment.id).map((reply) => (
+        //       <Typography
+        //         key={reply.body}
+        //         variant="inherit"
+        //         style={{
+        //           margin: "0.25rem 0",
+        //           padding: "0 0.15rem",
+        //         }}
+        //       >
+        //         {reply.body}
+        //       </Typography>
+        //     ))}
+        //   </Grid>
+        //   <Grid item xs={6} justifyContent={"center"} padding={"0 0.25rem"}>
+        //     <Typography variant="overline">Tags</Typography>
+        //   </Grid>
+        //   <Grid
+        //     item
+        //     xs={6}
+        //     display={"flex"}
+        //     flexDirection={"column"}
+        //     flexGrow={1}
+        //   >
+        //     <Reply comment={comment} />
+        //   </Grid>
+        //   <Grid
+        //     item
+        //     xs={6}
+        //     display={"flex"}
+        //     flexDirection={"column"}
+        //     flexGrow={1}
+        //   >
+        //     <Box>
+        //       <Tags comment={comment} />
+        //     </Box>
+        //   </Grid>
+        // </Grid>
       ))}
     </div>
   );
