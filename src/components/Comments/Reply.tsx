@@ -31,6 +31,9 @@ export const Reply = ({ comment }: Props) => {
         size="small"
         value={reply}
         onChange={(e) => setReply(e.target.value)}
+        onKeyDown={(e) => {
+          if (isEnterKey(e.code)) handleSaveReply(comment);
+        }}
       />
       <Button variant="contained" onClick={() => handleSaveReply(comment)}>
         Reply

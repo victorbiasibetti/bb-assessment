@@ -45,7 +45,7 @@ export const Tags = ({ comment }: Props) => {
               setTag(value);
             }}
             onKeyDown={(e) => {
-              if (e.code == "Enter") {
+              if (isEnterKey(e.code)) {
                 handleSaveTag(comment);
               }
             }}
