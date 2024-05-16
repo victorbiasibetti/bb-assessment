@@ -52,6 +52,7 @@ export const getServerSideProps = (async () => {
     props: {
       posts,
       users,
+      httpClient,
     },
   };
 }) satisfies GetServerSideProps<{ posts: PostType[]; users: User[] }>;
